@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Particles")]
     public ParticleSystem landFX;
 
-    private bool isGrounded;
+    public bool isGrounded;
 
     float mx;
 
@@ -31,12 +31,13 @@ public class PlayerMovement : MonoBehaviour
     {
         mx = Input.GetAxisRaw("Horizontal");
 
-        if (mx > 0f)
+        if (mx > 0)
         {
             Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
             transform.rotation = rotation;
+            anim.SetFloat("Speed", mx);
         }
-        else if (mx < 0f)
+        else if (mx < 0)
         {
             Quaternion rotation = Quaternion.Euler(0f, 180f, 0f);
             transform.rotation = rotation;
@@ -49,8 +50,6 @@ public class PlayerMovement : MonoBehaviour
         Vector2 movement = new Vector2(mx * moveSpeed, rb.velocity.y);
 
         rb.velocity = movement;
-
-        anim.SetFloat("Speed", mx);
 
         switch (state)
         {
@@ -119,5 +118,4 @@ public class PlayerMovement : MonoBehaviour
     {
         anim.SetTrigger("hasWhipped");
     }
-
 }
