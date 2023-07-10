@@ -31,17 +31,21 @@ public class PlayerMovement : MonoBehaviour
     {
         mx = Input.GetAxisRaw("Horizontal");
 
+        anim.SetFloat("Speed", Mathf.Abs(mx));
+
         if (mx > 0)
         {
             Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
             transform.rotation = rotation;
-            anim.SetFloat("Speed", mx);
         }
         else if (mx < 0)
         {
             Quaternion rotation = Quaternion.Euler(0f, 180f, 0f);
             transform.rotation = rotation;
         }
+
+
+
         anim.SetBool("isGrounded", IsGrounded());
     }
 
