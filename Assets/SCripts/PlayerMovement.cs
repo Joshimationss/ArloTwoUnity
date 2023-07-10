@@ -9,6 +9,12 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode jumpKey;
     public KeyCode whipKey;
 
+    [Header("Sounds")]
+    private AudioSource audSource;
+    public AudioClip jumpSnd;
+    public AudioClip whipCrack;
+
+    [Header("The Other")]
     public float moveSpeed;
     public Rigidbody rb;
     public float jumpForce = 10f;
@@ -26,12 +32,26 @@ public class PlayerMovement : MonoBehaviour
 
     float mx;
 
+    public bool isCarrying;
+
+
+    private void Start()
+    {
+        audSource = GetComponent<AudioSource>();
+    }
 
     public void FixedUpdate()
     {
         mx = Input.GetAxisRaw("Horizontal");
 
-        anim.SetFloat("Speed", Mathf.Abs(mx));
+        if (isCarrying == false)
+        {
+            anim.SetFloat("Speed", Mathf.Abs(mx));
+        } 
+        else
+        {
+            anim.SetFloat("SpeedCarry", Mathf.Abs(mx));
+        }
 
         if (mx > 0)
         {
@@ -43,8 +63,6 @@ public class PlayerMovement : MonoBehaviour
             Quaternion rotation = Quaternion.Euler(0f, 180f, 0f);
             transform.rotation = rotation;
         }
-
-
 
         anim.SetBool("isGrounded", IsGrounded());
     }
@@ -58,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
         switch (state)
         {
             case State.normal:
-
+                isCarrying = false;
             break;
 
             case State.grab:
@@ -66,15 +84,15 @@ public class PlayerMovement : MonoBehaviour
             break;
 
             case State.hold:
-
+                isCarrying = true;
             break;
 
             case State.toss:
-
+                isCarrying = false;
             break;
 
             case State.dead:
-
+                isCarrying = false;
             break;
         }
 
@@ -109,6 +127,15 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = movement;
 
         landFX.Play();
+
+        if (!audSource.isPlaying)
+        {
+            if (isGrounded == true)
+            {
+                audSource.clip = jumpSnd;
+                audSource.Play();
+            }
+        }
     }
 
     public bool IsGrounded()
@@ -121,5 +148,12 @@ public class PlayerMovement : MonoBehaviour
     void Whipping()
     {
         anim.SetTrigger("hasWhipped");
+
+        if (!audSource.isPlaying)
+        {
+            audSource.clip = whipCrack;
+            audSource.Play();
+        }
+
     }
 }
