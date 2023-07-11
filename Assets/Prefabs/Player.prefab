@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3609445171159170417}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.462, y: -0.447, z: 0}
+  m_LocalPosition: {x: 0.778, y: -0.224, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5295,10 +5295,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpKey: 350
   whipKey: 352
-  grabKey: 353
+  grabKey: 351
   jumpSnd: {fileID: 8300000, guid: 617704ee41835414b80c36055217b5dc, type: 3}
   whipCrack: {fileID: 8300000, guid: 29db7576530fcea4aaa3f4e104b8d10e, type: 3}
   isCarrying: 0
+  grab: {fileID: 1418157569}
   moveSpeed: 5
   rb: {fileID: 8422531601262359929}
   jumpForce: 20
@@ -5450,7 +5451,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8422531601397349887}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.91, y: -0.27, z: 0}
+  m_LocalPosition: {x: 0.91, y: -0.412, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5472,7 +5473,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8422531601397349887}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5518,8 +5519,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.600606, y: 1.0312071, z: 1}
+  m_Center: {x: -0.30030298, y: -0.015603542, z: 0}
 --- !u!114 &1418157569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5532,7 +5533,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21398e78d8d151646b25c08984716ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grabKey: 353
   anim: {fileID: 8422531601540580163}
   pc: {fileID: 8422531601262359925}
   grabPoint: {fileID: 7441899137290462438}

@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Controls")]
     public KeyCode jumpKey;
     public KeyCode whipKey;
-    public KeyCode grabKey;
+    public KeyCode grabKey = KeyCode.Joystick1Button1;
 
     [Header("Sounds")]
     private AudioSource audSource;
@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Grab Related")]
     public bool isCarrying;
-    private GrabRange grab;
+    public GrabRange grab;
 
     [Header("The Other")]
     public float moveSpeed;
@@ -76,12 +76,14 @@ public class PlayerMovement : MonoBehaviour
                 isCarrying = false;
             break;
 
-            case State.grab:
-
-            break;
-
             case State.hold:
-                anim.SetFloat("SpeedCarry", Mathf.Abs(mx));
+                if (Input.GetKeyDown(grabKey)) //Toss it!
+                {
+                    anim.SetBool("isCarrying", false);
+                    state = State.toss;
+                    grab.Toss(transform.rotation.eulerAngles.y); // + 270
+                }
+                anim.SetFloat("Speed", Mathf.Abs(mx));
                 isCarrying = true;
             break;
 
@@ -110,7 +112,6 @@ public class PlayerMovement : MonoBehaviour
     public enum State
     {
         normal,
-        grab,
         hold,
         toss,
         whip, // can grab rocks, and slap enemies
@@ -157,7 +158,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public static bool AnimationOver(Animator animator)
     {
-        return animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f;
+        return animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5f;
     }
 
 }

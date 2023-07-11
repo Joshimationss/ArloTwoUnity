@@ -7,6 +7,7 @@ public class RockScript : MonoBehaviour
     public Rigidbody rb;
     public GrabRange gr;
 
+    public GameObject explosion;
     public MoveState move = MoveState.still;
     public enum MoveState
     {
@@ -21,24 +22,30 @@ public class RockScript : MonoBehaviour
         gr = FindObjectOfType<GrabRange>();
     }
 
+    private void Explode()
+    {
+        Debug.Log("Blam");
+        Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(gameObject); // :3
+    }
+
     public void Toss(float direction) //Default magnitude of 10
     {
-        Toss(direction, 20f, 5f);
+        Toss(direction, 10f, 8f);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         //Bonk
-        if (collision.gameObject.CompareTag("Player") && move != MoveState.still && move != MoveState.held && rb.velocity.y <= 1)
+        if (collision.gameObject.CompareTag("Player") && move != MoveState.still && move != MoveState.held)
         {
             collision.gameObject.GetComponent<PlayerMovement>();
+        }
 
-            //Bounce!
-            if (move == MoveState.toss)
-            {
-                Toss(GetAngle(rb.velocity.x, rb.velocity.z));
-                return;
-            }
+        if (move == MoveState.toss)
+        {
+            Debug.Log("Kablam?");
+            Explode();
         }
 
         //Stop falling
@@ -57,6 +64,7 @@ public class RockScript : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.AddForce(force, ForceMode.Impulse);
         rb.useGravity = true;
+        move = MoveState.toss;
     }
 
     public static float GetAngle(float x, float y)
@@ -65,5 +73,4 @@ public class RockScript : MonoBehaviour
         angle *= Mathf.Rad2Deg;
         return (360 + angle) % 360;
     }
-
 }
