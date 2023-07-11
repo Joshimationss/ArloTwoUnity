@@ -11,6 +11,7 @@ public class RockScript : MonoBehaviour
 
     public GameObject explosion;
     public MoveState move = MoveState.still;
+
     public enum MoveState
     {
         still,
@@ -39,15 +40,6 @@ public class RockScript : MonoBehaviour
         trail.emitting = true;
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (move == MoveState.toss)
-        {
-            Debug.Log("Kablam?");
-            Explode();
-        }
-    }
-
     public void Toss(float direction, float height, float magnitude)
     {
         direction *= -Mathf.Deg2Rad; //Convert to radians, fix
@@ -56,6 +48,20 @@ public class RockScript : MonoBehaviour
         rb.AddForce(force, ForceMode.Impulse);
         rb.useGravity = true;
         move = MoveState.toss;
+    }
+
+    public void Drop()
+    {
+        move = MoveState.still;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (move == MoveState.toss)
+        {
+            Debug.Log("Kablam?");
+            Explode();
+        }
     }
 
     public static float GetAngle(float x, float y)

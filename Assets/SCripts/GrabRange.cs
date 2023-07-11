@@ -51,4 +51,9 @@ public class GrabRange : MonoBehaviour
         anim.SetTrigger("hasThrown");
     }
 
+    public void Drop()
+    {
+        Debug.Log("Drop");
+        rocka.GetComponent<RockScript>().Drop();
+    }
 }

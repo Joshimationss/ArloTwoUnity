@@ -51,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isGrounded;
     float mx;
+    float my;
 
     private void Awake()
     {
@@ -64,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
     public void FixedUpdate()
     {
         mx = Input.GetAxisRaw("Horizontal");
+        my = Input.GetAxisRaw("Vertical");
 
         if (mx > 0)
         {
@@ -80,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update()
-    {
+    {   
         switch (state)
         {
             case State.normal:
@@ -102,6 +104,9 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case State.hold:
+                anim.SetFloat("Speed", Mathf.Abs(mx));
+                isCarrying = true;
+
                 if (Input.GetKeyDown(grabKey)) //Toss it!
                 {
                     anim.SetBool("isCarrying", false);
@@ -115,8 +120,13 @@ public class PlayerMovement : MonoBehaviour
                     }
 
                 }
-                anim.SetFloat("Speed", Mathf.Abs(mx));
-                isCarrying = true;
+
+                if (my < -0.5) //Drop it!
+                {
+                    anim.SetBool("isCarrying", false);
+                    state = State.normal;
+                    grab.Drop();
+                }
                 break;
 
             case State.toss:
