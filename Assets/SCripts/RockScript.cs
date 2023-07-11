@@ -35,6 +35,7 @@ public class RockScript : MonoBehaviour
     public void Toss(float direction) //Default magnitude of 10
     {
         Toss(direction, 10f, 8f);
+        //rb.freezeRotation = false;
         trail.emitting = true;
     }
 

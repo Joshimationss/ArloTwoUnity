@@ -30,6 +30,8 @@ public class PlayerMovement : MonoBehaviour
     public Animator anim;
     public State state;
 
+    bool isWhipping = true;
+
     [Header("Particles")]
     public ParticleSystem landFX;
 
@@ -72,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
         switch (state)
         {
             case State.normal:
+                isWhipping = false;
                 anim.SetFloat("Speed", Mathf.Abs(mx));
                 isCarrying = false;
             break;
@@ -95,6 +98,10 @@ public class PlayerMovement : MonoBehaviour
             case State.dead:
                 isCarrying = false;
             break;
+
+            case State.whip:
+                isWhipping = true;
+                break;
         }
 
         if (Input.GetKey(jumpKey) && IsGrounded())
@@ -105,6 +112,8 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyUp(whipKey))
         {
             Whipping();
+
+            //state = State.whip;
         }
 
     }

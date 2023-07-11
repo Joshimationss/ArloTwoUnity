@@ -19,14 +19,14 @@ public class GrabRange : MonoBehaviour
             rocka.transform.position = grabPoint.transform.position;
         }
 
-        if (!Input.GetKeyUp(pc.grabKey)) buttonHeld = false;
+        if (!Input.GetKeyDown(pc.grabKey)) buttonHeld = false;
     }
 
     public void OnTriggerStay(Collider other)
     {
         if (pc.state != PlayerMovement.State.normal) return; //Get out if doing something else
 
-        if (other.CompareTag("Rock") && Input.GetKeyUp(pc.grabKey))
+        if (other.CompareTag("Rock") && Input.GetKey(pc.grabKey))
         {
             rocka = other.gameObject;
             pc.state = PlayerMovement.State.hold;
