@@ -41,24 +41,10 @@ public class RockScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        //Bonk
-        if (collision.gameObject.CompareTag("Player") && move != MoveState.still && move != MoveState.held)
-        {
-            collision.gameObject.GetComponent<PlayerMovement>();
-        }
-
         if (move == MoveState.toss)
         {
             Debug.Log("Kablam?");
             Explode();
-        }
-
-        //Stop falling
-        if (Physics.Raycast(transform.position, Vector3.down, 0.6f))
-        {
-            rb.useGravity = false;
-            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-            if (move == MoveState.toss) move = MoveState.still; //Do not continue moving if thrown
         }
     }
 

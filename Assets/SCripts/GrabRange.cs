@@ -9,7 +9,6 @@ public class GrabRange : MonoBehaviour
 
     public Transform grabPoint;
 
-    public bool buttonHeld;
     private GameObject rocka;
 
     private void Update()
@@ -18,21 +17,25 @@ public class GrabRange : MonoBehaviour
         {
             rocka.transform.position = grabPoint.transform.position;
         }
-
-        if (!Input.GetKeyDown(pc.grabKey)) buttonHeld = false;
     }
 
     public void OnTriggerStay(Collider other)
     {
-        if (pc.state != PlayerMovement.State.normal) return; //Get out if doing something else
+        if (pc.state == PlayerMovement.State.hold) return; //Get out
+        rocka = null;
+        if (pc.state != PlayerMovement.State.normal) return; //Get out
+        if (other.CompareTag("Rock")) rocka = other.gameObject;
+    }
 
-        if (other.CompareTag("Rock") && Input.GetKey(pc.grabKey))
+    public bool Pickup()
+    {
+        if (rocka != null)
         {
-            rocka = other.gameObject;
-            pc.state = PlayerMovement.State.hold;
             Debug.Log("touched");
             anim.SetBool("isCarrying", true);
+            return true;
         }
+        return false;
     }
 
     public void Toss(float direction)

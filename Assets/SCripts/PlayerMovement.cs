@@ -30,6 +30,16 @@ public class PlayerMovement : MonoBehaviour
     public Animator anim;
     public State state;
 
+    public enum State
+    {
+        normal,
+        hold,
+        toss,
+        whip, // can grab rocks, and slap enemies
+        swing, // to be used after whipping at points
+        dead
+    }
+
     bool isWhipping = true;
 
     [Header("Particles")]
@@ -65,19 +75,27 @@ public class PlayerMovement : MonoBehaviour
         anim.SetBool("isGrounded", IsGrounded());
     }
 
-    public void LateUpdate()
+    private void Update()
     {
-        Vector2 movement = new Vector2(mx * moveSpeed, rb.velocity.y);
-
-        rb.velocity = movement;
-
         switch (state)
         {
             case State.normal:
                 isWhipping = false;
                 anim.SetFloat("Speed", Mathf.Abs(mx));
                 isCarrying = false;
-            break;
+
+                if (Input.GetKeyUp(whipKey))
+                {
+                    Whipping();
+
+                    //state = State.whip;
+                }
+
+                if (Input.GetKeyDown(grabKey))
+                {
+                    if (grab.Pickup()) state = State.hold;
+                }
+                break;
 
             case State.hold:
                 if (Input.GetKeyDown(grabKey)) //Toss it!
@@ -88,44 +106,33 @@ public class PlayerMovement : MonoBehaviour
                 }
                 anim.SetFloat("Speed", Mathf.Abs(mx));
                 isCarrying = true;
-            break;
+                break;
 
             case State.toss:
                 if (AnimationOver(anim)) state = State.normal;
                 isCarrying = false;
-            break;
+                break;
 
             case State.dead:
                 isCarrying = false;
-            break;
+                break;
 
             case State.whip:
                 isWhipping = true;
                 break;
         }
+    }
+
+    public void LateUpdate()
+    {
+        Vector2 movement = new Vector2(mx * moveSpeed, rb.velocity.y);
+
+        rb.velocity = movement;
 
         if (Input.GetKey(jumpKey) && IsGrounded())
         {
             Jump();
         }
-
-        if (Input.GetKeyUp(whipKey))
-        {
-            Whipping();
-
-            //state = State.whip;
-        }
-
-    }
-
-    public enum State
-    {
-        normal,
-        hold,
-        toss,
-        whip, // can grab rocks, and slap enemies
-        swing, // to be used after whipping at points
-        dead
     }
 
     void Jump()
