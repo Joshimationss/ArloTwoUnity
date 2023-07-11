@@ -8,11 +8,16 @@ public class PlayerMovement : MonoBehaviour
     [Header("Controls")]
     public KeyCode jumpKey;
     public KeyCode whipKey;
+    public KeyCode grabKey;
 
     [Header("Sounds")]
     private AudioSource audSource;
     public AudioClip jumpSnd;
     public AudioClip whipCrack;
+
+    [Header("Grab Related")]
+    public bool isCarrying;
+    private GrabRange grab;
 
     [Header("The Other")]
     public float moveSpeed;
@@ -29,12 +34,12 @@ public class PlayerMovement : MonoBehaviour
     public ParticleSystem landFX;
 
     public bool isGrounded;
-
     float mx;
 
-    public bool isCarrying;
-
-
+    private void Awake()
+    {
+        grab = GetComponentInChildren<GrabRange>();
+    }
     private void Start()
     {
         audSource = GetComponent<AudioSource>();
@@ -43,15 +48,6 @@ public class PlayerMovement : MonoBehaviour
     public void FixedUpdate()
     {
         mx = Input.GetAxisRaw("Horizontal");
-
-        if (isCarrying == false)
-        {
-            anim.SetFloat("Speed", Mathf.Abs(mx));
-        } 
-        else
-        {
-            anim.SetFloat("SpeedCarry", Mathf.Abs(mx));
-        }
 
         if (mx > 0)
         {
@@ -76,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
         switch (state)
         {
             case State.normal:
+                anim.SetFloat("Speed", Mathf.Abs(mx));
                 isCarrying = false;
             break;
 
@@ -84,10 +81,12 @@ public class PlayerMovement : MonoBehaviour
             break;
 
             case State.hold:
+                anim.SetFloat("SpeedCarry", Mathf.Abs(mx));
                 isCarrying = true;
             break;
 
             case State.toss:
+                if (AnimationOver(anim)) state = State.normal;
                 isCarrying = false;
             break;
 
@@ -156,4 +155,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
     }
+    public static bool AnimationOver(Animator animator)
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f;
+    }
+
 }

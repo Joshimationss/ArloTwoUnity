@@ -14,19 +14,17 @@ public class GrabRange : MonoBehaviour
 
     public bool buttonHeld;
 
-    private GameObject bomba;
+    private GameObject rocka;
 
     private void Update()
     {
         if (pc.state == PlayerMovement.State.hold)
         {
-            bomba.transform.position = grabPoint.transform.position;
+            rocka.transform.position = grabPoint.transform.position;
         }
 
         if (!Input.GetKey(grabKey)) buttonHeld = false;
     }
-
-    /*
 
     public void OnTriggerStay(Collider other)
     {
@@ -34,19 +32,16 @@ public class GrabRange : MonoBehaviour
 
         if (other.CompareTag("Rock") && Input.GetKey(grabKey))
         {
-            bomba = other.gameObject;
-            bomba.GetComponent<BombExplode>().move = BombExplode.MoveState.held;
-            pc.state = PlayerMovement.State.hold; //TODO: Change to grab when animation is implemented
-            pc.grabWait = true;
-            //anim.SetBool("isCarrying", true);
+            rocka = other.gameObject;
+            pc.state = PlayerMovement.State.hold;
+            Debug.Log("touched");
         }
     }
 
     public void Toss(float direction)
     {
-        bomba.GetComponent<BombExplode>().Toss(direction);
-        anim.SetTrigger("isToss");
+        rocka.GetComponent<RockScript>().Toss(direction);
+        anim.SetTrigger("hasThrown");
     }
 
-    */
 }
