@@ -10,10 +10,14 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode whipKey;
     public KeyCode grabKey = KeyCode.Joystick1Button1;
 
+    [HideInInspector]
+    public AudioSource audSource;
+
     [Header("Sounds")]
-    private AudioSource audSource;
     public AudioClip jumpSnd;
     public AudioClip whipCrack;
+    public AudioClip throwSnd;
+    public AudioClip pickupSnd;
 
     [Header("Grab Related")]
     public bool isCarrying;
@@ -103,6 +107,13 @@ public class PlayerMovement : MonoBehaviour
                     anim.SetBool("isCarrying", false);
                     state = State.toss;
                     grab.Toss(transform.rotation.eulerAngles.y); // + 270
+
+                    if (!audSource.isPlaying)
+                    {
+                        audSource.clip = throwSnd;
+                        audSource.Play();
+                    }
+
                 }
                 anim.SetFloat("Speed", Mathf.Abs(mx));
                 isCarrying = true;
@@ -121,18 +132,27 @@ public class PlayerMovement : MonoBehaviour
                 isWhipping = true;
                 break;
         }
+ 
     }
 
     public void LateUpdate()
     {
-        Vector2 movement = new Vector2(mx * moveSpeed, rb.velocity.y);
-
-        rb.velocity = movement;
+        if (state == State.hold)
+        {
+            Vector2 movement = new Vector2(mx * moveSpeed / 1.7f, rb.velocity.y);
+            rb.velocity = movement;
+        } 
+        else
+        {
+            Vector2 movement = new Vector2(mx * moveSpeed, rb.velocity.y);
+            rb.velocity = movement;
+        }
+        
 
         if (Input.GetKey(jumpKey) && IsGrounded())
         {
             Jump();
-        }
+        } 
     }
 
     void Jump()
@@ -146,7 +166,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!audSource.isPlaying)
         {
-            if (isGrounded == true)
+            if (!isGrounded == true)
             {
                 audSource.clip = jumpSnd;
                 audSource.Play();

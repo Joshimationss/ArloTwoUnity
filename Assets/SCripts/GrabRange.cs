@@ -31,6 +31,12 @@ public class GrabRange : MonoBehaviour
     {
         if (rocka != null)
         {
+            if (!pc.audSource.isPlaying)
+            {
+                pc.audSource.clip = pc.pickupSnd;
+                pc.audSource.Play();
+            }
+
             Debug.Log("touched");
             anim.SetBool("isCarrying", true);
             return true;

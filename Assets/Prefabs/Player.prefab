@@ -162,7 +162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8422531600079349488}
   m_Layer: 8
-  m_Name: Particles
+  m_Name: Fx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5297,11 +5297,14 @@ MonoBehaviour:
   jumpKey: 350
   whipKey: 352
   grabKey: 351
+  audSource: {fileID: 0}
   jumpSnd: {fileID: 8300000, guid: 617704ee41835414b80c36055217b5dc, type: 3}
   whipCrack: {fileID: 8300000, guid: 29db7576530fcea4aaa3f4e104b8d10e, type: 3}
+  throwSnd: {fileID: 8300000, guid: aaeefdfc42649d44ebfba409a938a6b2, type: 3}
+  pickupSnd: {fileID: 8300000, guid: dbe3ba07bf0b47840a7b57e2833da54a, type: 3}
   isCarrying: 0
   grab: {fileID: 1418157569}
-  moveSpeed: 5
+  moveSpeed: 5.5
   rb: {fileID: 8422531601262359929}
   jumpForce: 20
   feet: {fileID: 8422531600193085987}
@@ -5537,7 +5540,6 @@ MonoBehaviour:
   anim: {fileID: 8422531601540580163}
   pc: {fileID: 8422531601262359925}
   grabPoint: {fileID: 7441899137290462438}
-  buttonHeld: 0
 --- !u!1 &8422531601614834405
 GameObject:
   m_ObjectHideFlags: 0
@@ -5548,6 +5550,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8422531601614834404}
   - component: {fileID: 8422531601614834411}
+  - component: {fileID: 311241927}
   m_Layer: 8
   m_Name: Whip
   m_TagString: Untagged
@@ -5591,7 +5594,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 50cf2b73c0c2dab44a92615380bdedc8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5660,7 +5663,7 @@ TrailRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 65535
+      ctime1: 24672
       ctime2: 0
       ctime3: 0
       ctime4: 0
@@ -5687,6 +5690,19 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!65 &311241927
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8422531601614834405}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.6497898, y: 0.77227736, z: 1}
+  m_Center: {x: 1.2646418, y: 0.11386132, z: 0}
 --- !u!1001 &8422531601314852897
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5832,6 +5848,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: -6903970508122236232, guid: c703d7c839fe2814a86025dc60805fe8, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 50cf2b73c0c2dab44a92615380bdedc8, type: 2}
     - target: {fileID: -6582835053239381983, guid: c703d7c839fe2814a86025dc60805fe8, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -5860,6 +5880,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: -3488063919645288440, guid: c703d7c839fe2814a86025dc60805fe8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3ce80a040305abe4eab6d775253d707b, type: 2}
     - target: {fileID: -3067735343452684023, guid: c703d7c839fe2814a86025dc60805fe8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.007502274
@@ -6048,6 +6072,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 1630794972795428178, guid: c703d7c839fe2814a86025dc60805fe8, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 50cf2b73c0c2dab44a92615380bdedc8, type: 2}
     - target: {fileID: 2275371941471415006, guid: c703d7c839fe2814a86025dc60805fe8, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -6211,6 +6239,14 @@ PrefabInstance:
     - target: {fileID: 8030707958198045491, guid: c703d7c839fe2814a86025dc60805fe8, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8509722215188012327, guid: c703d7c839fe2814a86025dc60805fe8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 50cf2b73c0c2dab44a92615380bdedc8, type: 2}
+    - target: {fileID: 8510891858952371792, guid: c703d7c839fe2814a86025dc60805fe8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.95
       objectReference: {fileID: 0}
     - target: {fileID: 8510979649102435561, guid: c703d7c839fe2814a86025dc60805fe8, type: 3}
       propertyPath: m_Layer
