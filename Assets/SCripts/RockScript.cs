@@ -7,6 +7,8 @@ public class RockScript : MonoBehaviour
     public Rigidbody rb;
     public GrabRange gr;
 
+    public TrailRenderer trail;
+
     public GameObject explosion;
     public MoveState move = MoveState.still;
     public enum MoveState
@@ -24,6 +26,7 @@ public class RockScript : MonoBehaviour
 
     private void Explode()
     {
+        trail.emitting = false;
         Debug.Log("Blam");
         Instantiate(explosion, transform.position, Quaternion.identity);
         Destroy(gameObject); // :3
@@ -32,6 +35,7 @@ public class RockScript : MonoBehaviour
     public void Toss(float direction) //Default magnitude of 10
     {
         Toss(direction, 10f, 8f);
+        trail.emitting = true;
     }
 
     private void OnCollisionEnter(Collision collision)

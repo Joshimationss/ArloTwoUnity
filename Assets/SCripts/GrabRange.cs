@@ -10,7 +10,6 @@ public class GrabRange : MonoBehaviour
     public Transform grabPoint;
 
     public bool buttonHeld;
-
     private GameObject rocka;
 
     private void Update()
