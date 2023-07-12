@@ -14,4 +14,13 @@ public class ExplodeHandler : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         Destroy(gameObject);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "Enemy")
+        {
+            Destroy(collision.collider.gameObject);
+            Destroy(gameObject);
+        }
+    }
 }

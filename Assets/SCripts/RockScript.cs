@@ -28,7 +28,6 @@ public class RockScript : MonoBehaviour
     private void Explode()
     {
         trail.emitting = false;
-        Debug.Log("Blam");
         Instantiate(explosion, transform.position, Quaternion.identity);
         Destroy(gameObject); // :3
     }
@@ -59,10 +58,17 @@ public class RockScript : MonoBehaviour
     {
         if (move == MoveState.toss)
         {
-            Debug.Log("Kablam?");
             Explode();
         }
+
+        if (move == MoveState.toss && collision.collider.tag == "Enemy")
+        {
+            Destroy(collision.collider.gameObject);
+            Destroy(gameObject);
+        }
+
     }
+
 
     public static float GetAngle(float x, float y)
     {

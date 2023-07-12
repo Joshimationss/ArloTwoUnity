@@ -36,8 +36,6 @@ public class GrabRange : MonoBehaviour
                 pc.audSource.clip = pc.pickupSnd;
                 pc.audSource.Play();
             }
-
-            Debug.Log("touched");
             anim.SetBool("isCarrying", true);
             return true;
         }
@@ -46,14 +44,12 @@ public class GrabRange : MonoBehaviour
 
     public void Toss(float direction)
     {
-        Debug.Log("Throw");
         rocka.GetComponent<RockScript>().Toss(direction);
         anim.SetTrigger("hasThrown");
     }
 
     public void Drop()
     {
-        Debug.Log("Drop");
         rocka.GetComponent<RockScript>().Drop();
     }
 }
