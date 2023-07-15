@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Grab Related")]
     public bool isCarrying;
     public GrabRange grab;
+    public WhipScript whip;
 
     [Header("The Other")]
     public float moveSpeed;
@@ -53,8 +54,6 @@ public class PlayerMovement : MonoBehaviour
         swing, // to be used after whipping at points
         dead
     }
-
-    bool isWhipping = true;
 
     [Header("Particles")]
     public ParticleSystem landFX;
@@ -105,11 +104,10 @@ public class PlayerMovement : MonoBehaviour
         switch (state)
         {
             case State.normal:
-                isWhipping = false;
                 anim.SetFloat("Speed", Mathf.Abs(mx));
                 isCarrying = false;
 
-                if (Input.GetKeyUp(whipKey))
+                if (Input.GetKeyDown(whipKey))
                 {
                     Whipping();
 
@@ -162,9 +160,11 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case State.whip:
-                isWhipping = true;
-
-                if (AnimationOver(anim)) state = State.normal;
+                if (AnimationOver(anim) && AnimatorOnState(anim,"Whip"))
+                {
+                    state = whip.Pickup() ? State.hold : State.normal;
+                    whip.setActive(false);
+                }
                 break;
         }
 
@@ -227,8 +227,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Whipping()
     {
-        if (isDead == false)
+        if (!isDead)
         {
+            whip.setActive(true);
             anim.SetTrigger("hasWhipped");
 
             audSource.clip = whipCrack;
@@ -238,7 +239,12 @@ public class PlayerMovement : MonoBehaviour
     }
     public static bool AnimationOver(Animator animator)
     {
-        return animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5f;
+        return animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f;
+    }
+
+    public static bool AnimatorOnState(Animator animator, String state)
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).IsName(state);
     }
 
     private void OnCollisionEnter(Collision collision)

@@ -27,6 +27,12 @@ public class GrabRange : MonoBehaviour
         if (other.CompareTag("Rock")) rocka = other.gameObject;
     }
 
+    public bool Pickup(GameObject rocka)
+    {
+        this.rocka = rocka;
+        return Pickup();
+    }
+
     public bool Pickup()
     {
         if (rocka != null)

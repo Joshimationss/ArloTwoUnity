@@ -405,7 +405,8 @@ GameObject:
   - component: {fileID: 8196826527749483299}
   - component: {fileID: 82579230628083439}
   - component: {fileID: 2093596945782676325}
-  m_Layer: 8
+  - component: {fileID: 6430301156969468793}
+  m_Layer: 0
   m_Name: WhipBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -420,7 +421,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4675973404118896600}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.06, y: 0.3, z: 0}
+  m_LocalPosition: {x: 1.06, y: 0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -490,6 +491,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6430301156969468793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4675973404118896600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d68b623462892649867799142107dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 8422531601540580163}
+  pc: {fileID: 8422531601262359925}
+  grab: {fileID: 1418157569}
 --- !u!1 &8422531600031766047
 GameObject:
   m_ObjectHideFlags: 0
@@ -5768,6 +5784,7 @@ MonoBehaviour:
   healSound: {fileID: 8300000, guid: 190369ec04406594c8813ae17d11bf78, type: 3}
   isCarrying: 0
   grab: {fileID: 1418157569}
+  whip: {fileID: 6430301156969468793}
   moveSpeed: 5.5
   rb: {fileID: 8422531601262359929}
   jumpForce: 20

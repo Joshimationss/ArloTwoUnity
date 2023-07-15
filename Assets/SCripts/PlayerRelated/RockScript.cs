@@ -5,7 +5,6 @@ using UnityEngine;
 public class RockScript : MonoBehaviour
 {
     public Rigidbody rb;
-    public GrabRange gr;
 
     public TrailRenderer trail;
 
@@ -17,12 +16,6 @@ public class RockScript : MonoBehaviour
         still,
         held,
         toss,
-    }
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-        gr = FindObjectOfType<GrabRange>();
     }
 
     private void Explode()
