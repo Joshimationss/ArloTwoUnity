@@ -6,7 +6,7 @@ public class GrabRange : MonoBehaviour
 {
     public Animator anim;
     public PlayerMovement pc;
-
+    public WhipScript ws;
     public Transform grabPoint;
 
     private GameObject rocka;

@@ -163,6 +163,8 @@ public class PlayerMovement : MonoBehaviour
 
             case State.whip:
                 isWhipping = true;
+
+                if (AnimationOver(anim)) state = State.normal;
                 break;
         }
 
@@ -231,6 +233,7 @@ public class PlayerMovement : MonoBehaviour
 
             audSource.clip = whipCrack;
             audSource.Play();
+            state = State.whip;
         }
     }
     public static bool AnimationOver(Animator animator)
