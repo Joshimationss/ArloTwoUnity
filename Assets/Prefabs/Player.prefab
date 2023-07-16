@@ -506,6 +506,7 @@ MonoBehaviour:
   anim: {fileID: 8422531601540580163}
   pc: {fileID: 8422531601262359925}
   grab: {fileID: 1418157569}
+  explosion: {fileID: 263021594516254572, guid: 39634e73e0826fc41a4df1339160c5ee, type: 3}
 --- !u!1 &8422531600031766047
 GameObject:
   m_ObjectHideFlags: 0

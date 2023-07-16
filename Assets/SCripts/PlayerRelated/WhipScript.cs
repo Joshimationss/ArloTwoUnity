@@ -9,6 +9,7 @@ public class WhipScript : MonoBehaviour
     public Animator anim;
     public PlayerMovement pc;
     public GrabRange grab;
+    public GameObject explosion;
 
     private GameObject rocka;
 
@@ -23,6 +24,7 @@ public class WhipScript : MonoBehaviour
     public void setActive(bool active)
     {
         Debug.Log("Set State " + active);
+
         isActive = active;
         rocka = null;
     }
@@ -40,6 +42,13 @@ public class WhipScript : MonoBehaviour
             Debug.Log("Set rock!");
             rocka = other.gameObject;
             rocka.GetComponent<RockScript>().move = RockScript.MoveState.held;
+        }
+
+        if (other.CompareTag("Enemy") && isActive == true)
+        {
+            Instantiate(explosion, transform.position, Quaternion.identity);
+            Debug.Log("Blam");
+            Destroy(other.gameObject); //Just damage the other enemy!
         }
     }
 }

@@ -28,8 +28,4 @@ public class BaseEnemyAi : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        
-    }
 }
