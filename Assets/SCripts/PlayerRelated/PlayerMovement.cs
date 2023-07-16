@@ -229,12 +229,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!isDead)
         {
-            whip.setActive(true);
-            anim.SetTrigger("hasWhipped");
-
-            audSource.clip = whipCrack;
-            audSource.Play();
-            state = State.whip;
+            if (isGrounded == true)
+            {
+                whip.setActive(true);
+                anim.SetTrigger("hasWhipped");
+                audSource.clip = whipCrack;
+                audSource.Play();
+                state = State.whip;
+            }  
         }
     }
     public static bool AnimationOver(Animator animator)
