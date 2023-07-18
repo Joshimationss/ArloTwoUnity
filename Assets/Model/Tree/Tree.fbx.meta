@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2ca06d3bbc1c60f49b4345e1072a62fc
+guid: df6ac90f2843cc6489cb53f7e362c50d
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,38 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Cave
-    second: {fileID: 2100000, guid: f2839443e3a10ab4dba07de9de41b939, type: 2}
+      name: Bark
+    second: {fileID: 2100000, guid: 28a99b62128d3e048adf0d43646781d7, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Dirt
-    second: {fileID: 2100000, guid: e46e373fd7c123948aa2ac4186d95122, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Grass
-    second: {fileID: 2100000, guid: b55843d91a4b34d4f96a957501bc26a6, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: GrassPath
-    second: {fileID: 2100000, guid: 371493ac669c4a24fa94fe9e2566fa5e, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: GrassTop
-    second: {fileID: 2100000, guid: 6f24eb2dbf88f14419d18bfd8a4c55af, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Water
-    second: {fileID: 2100000, guid: aae471d9984788d40bb833765a7252d8, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: WaterFall
-    second: {fileID: 2100000, guid: eabff8e987a2264469898910034febcb, type: 2}
+      name: Leaf
+    second: {fileID: 2100000, guid: e320c82f8c16366479c02c793ce41c15, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -70,9 +45,9 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1.5
+    globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importVisibility: 1
@@ -123,7 +98,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1.5
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
