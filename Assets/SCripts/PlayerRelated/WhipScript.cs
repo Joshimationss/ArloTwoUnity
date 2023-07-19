@@ -24,7 +24,6 @@ public class WhipScript : MonoBehaviour
     public void setActive(bool active)
     {
         Debug.Log("Set State " + active);
-
         isActive = active;
         rocka = null;
     }
@@ -39,6 +38,9 @@ public class WhipScript : MonoBehaviour
         Debug.Log(other.gameObject + ", " + isActive + ", " + rocka);
         if (other.CompareTag("Rock") && isActive && rocka == null)
         {
+                pc.audSource.clip = pc.pickupSnd;
+                pc.audSource.Play();
+
             Debug.Log("Set rock!");
             rocka = other.gameObject;
             rocka.GetComponent<RockScript>().move = RockScript.MoveState.held;

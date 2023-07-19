@@ -11,7 +11,7 @@ public class ExplodeHandler : MonoBehaviour
 
     IEnumerator KillSplode()
     {
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.35f);
         Destroy(gameObject);
     }
 

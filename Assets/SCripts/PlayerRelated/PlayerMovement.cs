@@ -21,7 +21,6 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("WhipSounds")]
     public AudioClip[] whipCrack;
-    private AudioClip whipClip;
     [Header("OtherSounds")]
     public AudioClip jumpSnd;
     public AudioClip throwSnd;
@@ -118,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (Input.GetKeyDown(whipKey))
                 {
-                    Whipping();
+                   Whipping();
                 }
 
                 if (Input.GetKeyDown(grabKey))
@@ -141,11 +140,8 @@ public class PlayerMovement : MonoBehaviour
                     state = State.toss;
                     grab.Toss(transform.rotation.eulerAngles.y); // + 270
 
-                    if (!audSource.isPlaying)
-                    {
-                        audSource.clip = throwSnd;
-                        audSource.Play();
-                    }
+                    audSource.clip = throwSnd;
+                    audSource.Play();
                 }
 
                 if (my < -0.5) //Drop it!
@@ -213,14 +209,15 @@ public class PlayerMovement : MonoBehaviour
 
             landFX.Play();
 
-            if (!audSource.isPlaying)
+            if (!isGrounded == true || enteringDoor == false)
             {
-                if (!isGrounded == true || enteringDoor == false)
+                if(!audSource.isPlaying)
                 {
                     audSource.clip = jumpSnd;
                     audSource.Play();
                 }
-            }
+                
+            } 
         }
     }
 
@@ -233,16 +230,16 @@ public class PlayerMovement : MonoBehaviour
 
     void Whipping()
     {
+        int rand = UnityEngine.Random.Range(0, whipCrack.Length);
+        audSource.clip = whipCrack[rand];
+        audSource.Play();
+
         if (!isDead || !enteringDoor)
         {
             if (isGrounded == true)
             {
                 whip.setActive(true);
                 anim.SetTrigger("hasWhipped");
-                int rand = UnityEngine.Random.Range(0, whipCrack.Length);
-                audSource.clip = whipCrack[rand];
-                audSource.Play();
-
                 state = State.whip;
             }  
         }
@@ -282,11 +279,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (!audSource.isPlaying)
-        {
-            audSource.clip = ouchSound;
-            audSource.Play();
-        }
+        audSource.clip = ouchSound;
+        audSource.Play();
         myHealth -= damage;
         healthBar.fillAmount = myHealth / 6f;
         anim.SetTrigger("beenHurt");
@@ -294,11 +288,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void Heal(float healAmount)
     {
-        if (!audSource.isPlaying)
-        {
-            audSource.clip = healSound;
-            audSource.Play();
-        }
+        audSource.clip = healSound;
+        audSource.Play();
         myHealth += healAmount;
         myHealth = Mathf.Clamp(myHealth, 0, 6);
         healthBar.fillAmount = myHealth / 6f;
