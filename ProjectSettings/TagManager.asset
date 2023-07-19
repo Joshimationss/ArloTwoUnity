@@ -7,6 +7,7 @@ TagManager:
   - Rock
   - Enemy
   - Food
+  - Door
   layers:
   - Default
   - TransparentFX

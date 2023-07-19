@@ -302,4 +302,12 @@ public class PlayerMovement : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Door"))
+        {
+            Debug.Log("In front of door");
+        }
+    }
+
 }
