@@ -19,9 +19,11 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector]
     public AudioSource audSource;
 
-    [Header("Sounds")]
+    [Header("WhipSounds")]
+    public AudioClip[] whipCrack;
+    private AudioClip whipClip;
+    [Header("OtherSounds")]
     public AudioClip jumpSnd;
-    public AudioClip whipCrack;
     public AudioClip throwSnd;
     public AudioClip pickupSnd;
     public AudioClip ouchSound;
@@ -32,18 +34,19 @@ public class PlayerMovement : MonoBehaviour
     public GrabRange grab;
     public WhipScript whip;
 
+    [Header("Level Loading")]
+    public LevelLoader lL;
+
     [Header("The Other")]
     public float moveSpeed;
     public Rigidbody rb;
     public float jumpForce = 10f;
-
     public Transform feet;
     public LayerMask groundLayers;
-
     public Animator anim;
     public State state;
-
-    private bool isDead;
+    [HideInInspector]
+    public bool enteringDoor;
 
     public enum State
     {
@@ -62,12 +65,16 @@ public class PlayerMovement : MonoBehaviour
     float mx;
     float my;
 
+    private bool isDead;
+
     private void Awake()
     {
+        lL = GetComponent<LevelLoader>();
         grab = GetComponentInChildren<GrabRange>();
     }
     private void Start()
     {
+        enteringDoor = false;
         isDead = false;
         audSource = GetComponent<AudioSource>();
     }
@@ -77,25 +84,27 @@ public class PlayerMovement : MonoBehaviour
         mx = Input.GetAxisRaw("Horizontal");
         my = Input.GetAxisRaw("Vertical");
 
-        if (isDead == false)
+        if (enteringDoor == false)
         {
-            if (mx > 0)
+            if (isDead == false)
             {
-                Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
-                transform.rotation = rotation;
+                if (mx > 0)
+                {
+                    Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
+                    transform.rotation = rotation;
+                }
+                else if (mx < 0)
+                {
+                    Quaternion rotation = Quaternion.Euler(0f, 180f, 0f);
+                    transform.rotation = rotation;
+                }
             }
-            else if (mx < 0)
-            {
-                Quaternion rotation = Quaternion.Euler(0f, 180f, 0f);
-                transform.rotation = rotation;
-            }
+            anim.SetBool("isGrounded", IsGrounded());
         }
-
-        anim.SetBool("isGrounded", IsGrounded());
     }
 
     private void Update()
-    {   
+    {
         if (Input.GetKeyDown(KeyCode.Return))
         {
             TakeDamage(1);
@@ -110,8 +119,6 @@ public class PlayerMovement : MonoBehaviour
                 if (Input.GetKeyDown(whipKey))
                 {
                     Whipping();
-
-                    //state = State.whip;
                 }
 
                 if (Input.GetKeyDown(grabKey))
@@ -120,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
                     {
                         if (grab.Pickup()) state = State.hold;
                     }
-                    
+
                 }
                 break;
 
@@ -139,7 +146,6 @@ public class PlayerMovement : MonoBehaviour
                         audSource.clip = throwSnd;
                         audSource.Play();
                     }
-
                 }
 
                 if (my < -0.5) //Drop it!
@@ -160,7 +166,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case State.whip:
-                if (AnimationOver(anim) && AnimatorOnState(anim,"Whip"))
+                if (AnimationOver(anim) && AnimatorOnState(anim, "Whip"))
                 {
                     state = whip.Pickup() ? State.hold : State.normal;
                     whip.setActive(false);
@@ -173,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
         {
             StartCoroutine(DeathTimer());
         }
- 
+
     }
 
     public void LateUpdate()
@@ -182,23 +188,23 @@ public class PlayerMovement : MonoBehaviour
         {
             Vector2 movement = new Vector2(mx * moveSpeed / 1.7f, rb.velocity.y);
             rb.velocity = movement;
-        } 
+        }
         else
         {
             Vector2 movement = new Vector2(mx * moveSpeed, rb.velocity.y);
             rb.velocity = movement;
         }
-        
+
 
         if (Input.GetKey(jumpKey) && IsGrounded())
         {
             Jump();
-        } 
+        }
     }
 
     void Jump()
     {
-        if (isDead == false)
+        if (isDead == false || enteringDoor == false)
         {
             Vector2 movement = new Vector2(rb.velocity.x, jumpForce);
 
@@ -209,7 +215,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (!audSource.isPlaying)
             {
-                if (!isGrounded == true)
+                if (!isGrounded == true || enteringDoor == false)
                 {
                     audSource.clip = jumpSnd;
                     audSource.Play();
@@ -227,18 +233,29 @@ public class PlayerMovement : MonoBehaviour
 
     void Whipping()
     {
-        if (!isDead)
+        if (!isDead || !enteringDoor)
         {
             if (isGrounded == true)
             {
                 whip.setActive(true);
                 anim.SetTrigger("hasWhipped");
-                audSource.clip = whipCrack;
+                int rand = UnityEngine.Random.Range(0, whipCrack.Length);
+                audSource.clip = whipCrack[rand];
                 audSource.Play();
+
                 state = State.whip;
             }  
         }
     }
+
+    void StopMovement()
+    {
+        moveSpeed = 0;
+        jumpForce = 0;
+        isDead = false;
+        isCarrying = false;
+    }
+
     public static bool AnimationOver(Animator animator)
     {
         return animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f;
@@ -304,10 +321,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Door"))
+        if (enteringDoor == false)
         {
-            Debug.Log("In front of door");
-        }
-    }
+            if (other.CompareTag("Door") && my > 0.5)
+            {
+                lL.LoadNextLevel();
 
+                state = State.toss;
+                Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
+                transform.rotation = rotation;
+                enteringDoor = true;
+                Debug.Log("Enter Door");
+                anim.SetTrigger("EnteringDoor");
+                StopMovement();
+            }
+        } 
+    }
 }
