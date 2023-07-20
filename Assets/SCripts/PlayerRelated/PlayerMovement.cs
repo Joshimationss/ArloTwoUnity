@@ -104,6 +104,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (my > 0.5f)
+        {
+            enteringDoor = true;
+        }
+        else
+        {
+            enteringDoor = false;
+        }
+
         if (Input.GetKeyDown(KeyCode.Return))
         {
             TakeDamage(1);
@@ -310,22 +319,13 @@ public class PlayerMovement : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    private void OnTriggerStay(Collider other)
+    public void EnterDoor()
     {
-        if (enteringDoor == false)
-        {
-            if (other.CompareTag("Door") && my > 0.5)
-            {
-                lL.LoadNextLevel();
-
-                state = State.toss;
-                Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
-                transform.rotation = rotation;
-                enteringDoor = true;
-                Debug.Log("Enter Door");
-                anim.SetTrigger("EnteringDoor");
-                StopMovement();
-            }
-        } 
+        state = State.toss;
+        Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
+        transform.rotation = rotation;
+        Debug.Log("Enter Door");
+        anim.SetTrigger("EnteringDoor");
+        StopMovement();
     }
 }

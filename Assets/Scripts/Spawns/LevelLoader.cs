@@ -9,12 +9,7 @@ public class LevelLoader : MonoBehaviour
 
     public float transTime = 1f;
 
-    public void LoadNextLevel()
-    {
-        StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
-    }
-
-    IEnumerator LoadLevel(int levelIndex)
+    public IEnumerator LoadLevel(int levelIndex)
     {
         //play anim
         ani.SetTrigger("FadeOut");

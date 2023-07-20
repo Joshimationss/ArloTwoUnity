@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8094751431716710448}
   - component: {fileID: 8844488092571543925}
   - component: {fileID: 2548714984334538805}
+  - component: {fileID: 7217302857243912512}
   m_Layer: 0
   m_Name: DoorTrigger
   m_TagString: Door
@@ -97,6 +98,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7217302857243912512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586973444584377066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4457c708abc29c64da33f6e990082b4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelToLoad: 0
 --- !u!1 &3063721912928788899
 GameObject:
   m_ObjectHideFlags: 0
