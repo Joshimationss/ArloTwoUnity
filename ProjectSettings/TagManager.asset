@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Food
   - Door
+  - FakeWall
   layers:
   - Default
   - TransparentFX

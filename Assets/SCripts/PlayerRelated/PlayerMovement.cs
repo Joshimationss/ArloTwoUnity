@@ -328,4 +328,12 @@ public class PlayerMovement : MonoBehaviour
         anim.SetTrigger("EnteringDoor");
         StopMovement();
     }
+
+    public void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("FakeWall"))
+        {
+            other.GetComponent<Renderer>().enabled = false;
+        } 
+    }
 }
