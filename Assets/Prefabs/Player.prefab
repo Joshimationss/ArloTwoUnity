@@ -10934,7 +10934,7 @@ MonoBehaviour:
   grab: {fileID: 1418157569}
   whip: {fileID: 6430301156969468793}
   lL: {fileID: 0}
-  moveSpeed: 5.5
+  moveSpeed: 5
   rb: {fileID: 8422531601262359929}
   jumpForce: 20
   feet: {fileID: 8422531600193085987}
